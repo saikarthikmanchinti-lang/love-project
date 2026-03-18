@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Rica ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-family: Arial;
+    background: radial-gradient(circle at top, #0b0c2a, #000);
+    color: white;
+    overflow: hidden;
+}
+
+/* Stars */
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    animation: twinkle 2s infinite;
+}
+
+@keyframes twinkle {
+    0%,100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+
+/* Moon */
+.moon {
+    width: 80px;
+    height: 80px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    box-shadow: 0 0 30px white;
+}
+
+/* Image */
+img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid white;
+    margin-top: 80px;
+    object-fit: cover;
+}
+
+/* Buttons */
+button {
+    padding: 12px 25px;
+    font-size: 18px;
+    background: #ff4d6d;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    margin: 10px;
+}
+
+/* NO button */
+#noBtn {
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    transform: translate(-50%, -50%);
+}
+
+/* Message */
+#message {
+    display: none;
+    margin-top: 20px;
+    font-size: 22px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+/* Hearts */
+.heart {
+    position: absolute;
+    color: red;
+    animation: float 5s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh); }
+    100% { transform: translateY(-10vh); }
+}
+
+/* Sparkles */
+.sparkle {
+    position: absolute;
+    color: gold;
+    font-size: 18px;
+    animation: sparkle 1.5s forwards;
+}
+
+@keyframes sparkle {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="moon"></div>
+
+<!-- 📸 Slideshow -->
+<img id="slideshow" src="pic1.jpg">
+
+<h2>Rica, you are my universe 🌙✨</h2>
+
+<button onclick="showLove()">Yes 💖</button>
+<button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">No 😏</button>
+
+<!-- 💬 Message -->
+<div id="message"></div>
+
+<!-- 🎵 Music -->
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// 🌌 Stars
+for (let i = 0; i < 100; i++) {
+    let star = document.createElement("div");
+    star.className = "star";
+    star.style.left = Math.random() * 100 + "vw";
+    star.style.top = Math.random() * 100 + "vh";
+    document.body.appendChild(star);
+}
+
+// 📸 Slideshow
+let images = ["pic1.jpg", "pic2.jpg", "pic3.jpg"];
+let index = 0;
+
+setInterval(() => {
+    index = (index + 1) % images.length;
+    document.getElementById("slideshow").src = images[index];
+}, 2000);
+
+// 💬 Romantic message (WITH NAME 💖)
+let text = "Hey Rica (My Monkey) 🐒💖\n\
+From the moment you came into my life, everything changed...\n\
+You made my days brighter and my nights more beautiful 🌙✨\n\
+I don’t know what the future holds, but I know one thing...\n\
+I want you in it ❤️\n\
+You are my happiness, my peace, my everything 💕";
+
+// typing effect
+let i = 0;
+
+function typeWriter() {
+    if (i < text.length) {
+        document.getElementById("message").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 40);
+    }
+}
+
+// 💖 YES button
+function showLove() {
+    document.getElementById("message").style.display = "block";
+    document.getElementById("message").innerHTML = "";
+    i = 0;
+    typeWriter();
+    document.getElementById("music").play();
+
+    // hearts
+    for (let i = 0; i < 30; i++) {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        document.body.appendChild(heart);
+    }
+
+    // sparkles
+    for (let i = 0; i < 20; i++) {
+        let sp = document.createElement("div");
+        sp.className = "sparkle";
+        sp.innerHTML = "✨";
+        sp.style.left = Math.random() * 100 + "vw";
+        sp.style.top = Math.random() * 100 + "vh";
+        document.body.appendChild(sp);
+    }
+}
+
+// 😂 NO button
+function moveNo() {
+    let btn = document.getElementById("noBtn");
+
+    let x = Math.random() * (window.innerWidth - 100);
+    let y = Math.random() * (window.innerHeight - 50);
+
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+}
+</script>
+
+</body>
+</html>
