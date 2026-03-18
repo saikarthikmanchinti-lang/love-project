@@ -7,203 +7,212 @@
 <style>
 body {
     margin: 0;
-    padding: 0;
-    text-align: center;
     font-family: Arial;
-    background: radial-gradient(circle at top, #0b0c2a, #000);
-    color: white;
+    text-align: center;
+    background: black;
+    color: #ff4d6d;
     overflow: hidden;
 }
 
-/* Stars */
-.star {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    animation: twinkle 2s infinite;
+h1, h2, p {
+    text-shadow: 0 0 10px #ff4d6d;
 }
 
-@keyframes twinkle {
-    0%,100% { opacity: 0.2; }
-    50% { opacity: 1; }
+.screen {
+    display: none;
+    padding: 50px;
+}
+.active {
+    display: block;
 }
 
-/* Moon */
-.moon {
-    width: 80px;
-    height: 80px;
-    background: #fff;
-    border-radius: 50%;
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    box-shadow: 0 0 30px white;
-}
-
-/* Image */
-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 3px solid white;
-    margin-top: 80px;
-    object-fit: cover;
-}
-
-/* Buttons */
 button {
     padding: 12px 25px;
     font-size: 18px;
-    background: #ff4d6d;
-    color: white;
-    border: none;
-    border-radius: 20px;
     margin: 10px;
+    background: transparent;
+    color: #ff4d6d;
+    border: 2px solid #ff4d6d;
+    border-radius: 25px;
+    box-shadow: 0 0 10px #ff4d6d;
 }
 
-/* NO button */
-#noBtn {
-    position: absolute;
-    left: 50%;
-    top: 70%;
-    transform: translate(-50%, -50%);
-}
-
-/* Message */
-#message {
-    display: none;
+img {
+    width: 220px;
+    border-radius: 15px;
     margin-top: 20px;
-    font-size: 22px;
+    box-shadow: 0 0 20px #ff4d6d;
+    transition: opacity 1s;
+}
+
+#photoText {
+    margin-top: 20px;
+    font-size: 20px;
     width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto;
     line-height: 1.6;
 }
 
-/* Hearts */
-.heart {
+.firework {
     position: absolute;
-    color: red;
-    animation: float 5s linear infinite;
+    font-size: 24px;
+    animation: explode 1s forwards;
 }
-
-@keyframes float {
-    0% { transform: translateY(100vh); }
-    100% { transform: translateY(-10vh); }
-}
-
-/* Sparkles */
-.sparkle {
-    position: absolute;
-    color: gold;
-    font-size: 18px;
-    animation: sparkle 1.5s forwards;
-}
-
-@keyframes sparkle {
-    0% { transform: scale(0); opacity: 1; }
-    100% { transform: scale(2); opacity: 0; }
+@keyframes explode {
+    0% {transform:scale(0);}
+    100% {transform:scale(2); opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="moon"></div>
+<div style="position:fixed;width:100%;height:100%;background:radial-gradient(circle,rgba(255,77,109,0.2),black);z-index:-1;"></div>
 
-<!-- 📸 Slideshow -->
+<!-- SCREEN 1 -->
+<div id="screen1" class="screen active">
+<h1>Hey Rica (My Monkey) 🐒💖</h1>
+<p>I made something special for you...</p>
+<button onclick="nextScreen(2)">Start 💌</button>
+</div>
+
+<!-- SCREEN 2 -->
+<div id="screen2" class="screen">
+<h2>Our Memories 📸</h2>
 <img id="slideshow" src="pic1.jpg">
+<p id="photoText"></p>
+<button onclick="nextScreen(3)">Next ➡️</button>
+</div>
 
-<h2>Rica, you are my universe 🌙✨</h2>
+<!-- SCREEN 3 -->
+<div id="screen3" class="screen">
+<h2>Do you like me? 😏</h2>
+<button onclick="nextScreen(4)">Yes 💖</button>
+<button id="noBtn" onmouseover="moveNo()">No 😂</button>
+</div>
 
-<button onclick="showLove()">Yes 💖</button>
-<button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">No 😏</button>
+<!-- SCREEN 4 -->
+<div id="screen4" class="screen">
+<h2 id="message"></h2>
+<button onclick="nextScreen(5)">Next 💫</button>
+</div>
 
-<!-- 💬 Message -->
-<div id="message"></div>
+<!-- SCREEN 5 -->
+<div id="screen5" class="screen">
+<h1>Will you always be mine? 💍</h1>
+<button onclick="celebrate()">YES 💖</button>
+<button id="noBtn2" onmouseover="moveNo2()">No 😏</button>
+</div>
 
-<!-- 🎵 Music -->
 <audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
+<source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-// 🌌 Stars
-for (let i = 0; i < 100; i++) {
-    let star = document.createElement("div");
-    star.className = "star";
-    star.style.left = Math.random() * 100 + "vw";
-    star.style.top = Math.random() * 100 + "vh";
-    document.body.appendChild(star);
+
+// screen change
+function nextScreen(n){
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+document.getElementById("screen"+n).classList.add("active");
+
+if(n===2){
+document.getElementById("music").play();
+typeEffect(texts[0]);
+}
+if(n===4) startTyping();
 }
 
-// 📸 Slideshow
-let images = ["pic1.jpg", "pic2.jpg", "pic3.jpg"];
-let index = 0;
+// slideshow images
+let images=["pic1.jpg","pic2.jpg","pic3.jpg","pic4.jpg","pic5.jpg"];
 
-setInterval(() => {
-    index = (index + 1) % images.length;
-    document.getElementById("slideshow").src = images[index];
-}, 2000);
+// short simple texts
+let texts=[
+"Rica 🐒💖\nThis smile is my favorite thing.\nIt makes my whole day better.",
 
-// 💬 Romantic message (WITH NAME 💖)
-let text = "Hey Rica (My Monkey) 🐒💖\n\
-From the moment you came into my life, everything changed...\n\
-You made my days brighter and my nights more beautiful 🌙✨\n\
-I don’t know what the future holds, but I know one thing...\n\
-I want you in it ❤️\n\
-You are my happiness, my peace, my everything 💕";
+"When I see you like this,\nI feel calm and happy.\nYou mean a lot to me.",
 
-// typing effect
-let i = 0;
+"You make everything feel easy.\nBeing with you feels right.\nI enjoy every moment with you.",
 
-function typeWriter() {
-    if (i < text.length) {
-        document.getElementById("message").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typeWriter, 40);
-    }
+"Even small moments with you\nbecome special for me.\nI always think about you.",
+
+"Rica 🐒💖\nI just want to be with you.\nLet’s stay together always ❤️"
+];
+
+let index=0;
+
+// typing for slideshow
+function typeEffect(text){
+let el=document.getElementById("photoText");
+el.innerHTML="";
+let i=0;
+function type(){
+if(i<text.length){
+el.innerHTML+=text.charAt(i);
+i++;
+setTimeout(type,30);
+}}
+type();
 }
 
-// 💖 YES button
-function showLove() {
-    document.getElementById("message").style.display = "block";
-    document.getElementById("message").innerHTML = "";
-    i = 0;
-    typeWriter();
-    document.getElementById("music").play();
+// slideshow every 5 sec
+setInterval(()=>{
+if(document.getElementById("screen2").classList.contains("active")){
+let img=document.getElementById("slideshow");
+img.style.opacity=0;
 
-    // hearts
-    for (let i = 0; i < 30; i++) {
-        let heart = document.createElement("div");
-        heart.className = "heart";
-        heart.innerHTML = "❤️";
-        heart.style.left = Math.random() * 100 + "vw";
-        document.body.appendChild(heart);
-    }
+setTimeout(()=>{
+index=(index+1)%images.length;
+img.src=images[index];
+img.style.opacity=1;
+typeEffect(texts[index]);
+},500);
 
-    // sparkles
-    for (let i = 0; i < 20; i++) {
-        let sp = document.createElement("div");
-        sp.className = "sparkle";
-        sp.innerHTML = "✨";
-        sp.style.left = Math.random() * 100 + "vw";
-        sp.style.top = Math.random() * 100 + "vh";
-        document.body.appendChild(sp);
-    }
+}
+},5000);
+
+// screen 4 typing
+let msg="Being with you feels like home 💖";
+let mi=0;
+
+function startTyping(){
+document.getElementById("message").innerHTML="";
+mi=0;
+typeMsg();
+}
+function typeMsg(){
+if(mi<msg.length){
+document.getElementById("message").innerHTML+=msg.charAt(mi);
+mi++;
+setTimeout(typeMsg,40);
+}}
+
+// funny NO buttons
+function moveNo(){
+let b=document.getElementById("noBtn");
+b.style.position="absolute";
+b.style.left=Math.random()*window.innerWidth+"px";
+b.style.top=Math.random()*window.innerHeight+"px";
+}
+function moveNo2(){
+let b=document.getElementById("noBtn2");
+b.style.position="absolute";
+b.style.left=Math.random()*window.innerWidth+"px";
+b.style.top=Math.random()*window.innerHeight+"px";
 }
 
-// 😂 NO button
-function moveNo() {
-    let btn = document.getElementById("noBtn");
-
-    let x = Math.random() * (window.innerWidth - 100);
-    let y = Math.random() * (window.innerHeight - 50);
-
-    btn.style.left = x + "px";
-    btn.style.top = y + "px";
+// fireworks
+function celebrate(){
+for(let i=0;i<30;i++){
+let f=document.createElement("div");
+f.className="firework";
+f.innerHTML="✨";
+f.style.left=Math.random()*100+"vw";
+f.style.top=Math.random()*100+"vh";
+document.body.appendChild(f);
 }
+alert("You made me the happiest person 💖🥹");
+}
+
 </script>
 
 </body>
